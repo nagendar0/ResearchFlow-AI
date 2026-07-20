@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "EvidenceFlow — Research with receipts",
+  title: "ResearchFlow AI — Evidence-First Research Agent",
   description: "An evidence-first research agent that turns a question into a reusable research workspace.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -16,6 +21,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
         {/* RootLayout is shared by every App Router route; this is not a page-scoped font. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link 
