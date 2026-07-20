@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EvidenceFlow — Research with receipts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">E</span><span>evidenceflow</span></a>
+      <button class="new-research" id="newResearch"><span>＋</span> New research</button>
+      <nav aria-label="Primary">
+        <a class="nav-link active" href="#workspace"><span>⌕</span> Research workspace</a>
+        <a class="nav-link" href="#library"><span>▣</span> Evidence library</a>
+        <a class="nav-link" href="#reports"><span>◫</span> Reports</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="profile"><span class="avatar">NS</span><span><b>Nagen S.</b><small>Personal workspace</small></span><span class="chevron">⌄</span></button>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div class="breadcrumb">Research workspace <span>/</span> <strong id="projectName">Market intelligence</strong></div>
+        <div class="header-actions"><button class="icon-button" title="Notifications">◌</button></div>
+      </header>
+
+      <section class="hero" id="workspace">
+        <p class="eyebrow">EVIDENCE-FIRST RESEARCH AGENT</p>
+        <h1>Research with <em>receipts.</em></h1>
+        <p class="subhead">Turn a question into a cited, decision-ready brief. Every claim stays connected to the evidence behind it.</p>
+        <div class="prompt-card">
+          <label for="question">What would you like to understand?</label>
+          <textarea id="question" rows="2" placeholder="e.g. How is AI changing clinical trial operations in 2026?">How is AI changing clinical trial operations in 2026?</textarea>
+          <div class="prompt-footer"><span class="scope"><span class="live-dot"></span> Web, papers & trusted sources</span><button class="research-button" id="startResearch">Start research <span>→</span></button></div>
+        </div>
+        <div class="suggestions"><span>Try:</span><button data-question="What are the strongest arguments for and against a four-day workweek?">Four-day workweek</button><button data-question="Map the competitive landscape for carbon removal in India.">Carbon removal in India</button><button data-question="What evidence supports GLP-1 medicines beyond diabetes and weight loss?">GLP-1 beyond weight loss</button></div>
+      </section>
+
+      <section class="research-grid" id="researchArea">
+        <div class="panel progress-panel">
+          <div class="panel-heading"><div><p class="eyebrow">RESEARCH RUN</p><h2 id="runTitle">Ready when you are</h2></div><span class="status idle" id="status">Idle</span></div>
+          <ol class="steps" id="steps">
+            <li><span class="step-index">01</span><div><b>Understand the question</b><small>Break the question into research angles</small></div><span class="step-state">—</span></li>
+            <li><span class="step-index">02</span><div><b>Find credible evidence</b><small>Prioritize primary and authoritative sources</small></div><span class="step-state">—</span></li>
+            <li><span class="step-index">03</span><div><b>Compare claims</b><small>Surface agreement, gaps, and contradictions</small></div><span class="step-state">—</span></li>
+            <li><span class="step-index">04</span><div><b>Write the brief</b><small>Draft a report with traceable citations</small></div><span class="step-state">—</span></li>
+          </ol>
+          <div class="run-note" id="runNote">Start a run to see EvidenceFlow work through the question.</div>
+        </div>
+
+        <div class="panel findings-panel">
+          <div class="panel-heading"><div><p class="eyebrow">LIVE FINDINGS</p><h2>Evidence ledger</h2></div><button class="text-button" id="viewAll">View all</button></div>
+          <div class="empty-ledger" id="ledgerEmpty"><div class="empty-icon">✦</div><b>Your evidence will appear here</b><p>Each finding links directly to its supporting source, so you can review it in context.</p></div>
+          <div class="ledger hidden" id="ledger">
+            <article class="finding"><div class="source-badge paper">P</div><div><div class="finding-meta">NATURE MEDICINE · MAY 2026 <span class="confidence high">High confidence</span></div><h3>AI tools are moving from trial design into operational decision support.</h3><p>Evidence points to the strongest adoption in protocol design, site selection, and patient matching.</p><button class="citation" data-citation="1">[1] View source ↗</button></div></article>
+            <article class="finding"><div class="source-badge report">R</div><div><div class="finding-meta">MCKINSEY HEALTH · APR 2026 <span class="confidence medium">Moderate confidence</span></div><h3>Value depends more on workflow redesign than model choice.</h3><p>Organisations reporting the clearest gains paired AI adoption with measurable process changes.</p><button class="citation" data-citation="2">[2] View source ↗</button></div></article>
+            <article class="finding"><div class="source-badge gov">G</div><div><div class="finding-meta">FDA · FEB 2026 <span class="confidence high">High confidence</span></div><h3>Governance requirements remain a major implementation constraint.</h3><p>Traceability, validation, and human oversight are recurring regulatory themes.</p><button class="citation" data-citation="3">[3] View source ↗</button></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="brief-section hidden" id="briefSection">
+        <div class="section-title"><div><p class="eyebrow">SYNTHESIZED OUTPUT</p><h2>Decision brief</h2></div><div class="export-actions"><button class="secondary-button" id="copyBrief">Copy brief</button><button class="export-button" id="exportBrief">Export PDF <span>↓</span></button></div></div>
+        <article class="brief-card"><div class="brief-top"><span class="brief-tag">RESEARCH SYNTHESIS</span><span id="sourceCount">12 sources reviewed</span></div><h2 id="briefQuestion">How is AI changing clinical trial operations in 2026?</h2><div class="brief-columns"><div><h3>Executive takeaway</h3><p>AI is beginning to improve trial operations where organisations can connect high-quality data with accountable human decisions. The clearest near-term gains are practical: reducing protocol friction, identifying suitable sites, and matching patients faster.</p><h3>What the evidence says</h3><ul><li>Operational uses show more mature evidence than fully autonomous clinical decision-making.</li><li>Successful programmes redesign workflows around AI rather than treating it as a standalone tool.</li><li>Validation and auditability remain essential for regulated deployment.</li></ul></div><aside class="evidence-callout"><span>Evidence check</span><b>8 claims supported by 12 sources</b><p>No material contradictions found across the highest-quality sources.</p><button id="openSources">Review evidence →</button></aside></div></article>
+      </section>
+    </main>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
