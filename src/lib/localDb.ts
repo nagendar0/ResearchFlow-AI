@@ -612,19 +612,42 @@ export async function factoryResetAllData(): Promise<void> {
       await invokeTauri('delete_local_file', { dirType: 'documents', filename: '*' });
       await invokeTauri('delete_local_file', { dirType: 'explain', filename: '*' });
       await invokeTauri('delete_local_file', { dirType: 'cache', filename: '*' });
-    } catch {}
+    } catch (e) {
+      console.warn('Tauri reset error:', e);
+    }
   }
 
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(['projects', 'sources', 'evidence_chunks', 'reports', 'explain_messages', 'search_cache'], 'readwrite');
-    transaction.objectStore('projects').clear();
-    transaction.objectStore('sources').clear();
-    transaction.objectStore('evidence_chunks').clear();
-    transaction.objectStore('reports').clear();
-    transaction.objectStore('explain_messages').clear();
-    transaction.objectStore('search_cache').clear();
-    transaction.oncomplete = () => resolve();
-    transaction.onerror = () => reject(transaction.error);
-  });
+  try {
+    const db = await openDB();
+    const storeNames = Array.from(db.objectStoreNames);
+    if (storeNames.length > 0) {
+      const transaction = db.transaction(storeNames, 'readwrite');
+      storeNames.forEach((name) => {
+        try {
+          transaction.objectStore(name).clear();
+        } catch (e) {
+          console.warn(`Failed clearing store ${name}:`, e);
+        }
+      });
+      await new Promise<void>((resolve) => {
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => resolve();
+      });
+    }
+    db.close();
+  } catch (e) {
+    console.warn('DB clear error:', e);
+  }
+
+  if (typeof window !== 'undefined') {
+    if (window.indexedDB) {
+      try {
+        window.indexedDB.deleteDatabase('ResearchFlowDB');
+      } catch (e) {
+        console.warn('Delete DB error:', e);
+      }
+    }
+    localStorage.clear();
+    sessionStorage.clear();
+  }
 }

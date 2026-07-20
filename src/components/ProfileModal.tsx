@@ -58,19 +58,15 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
   };
 
   const handleFactoryReset = async () => {
-    if (confirmInput.trim().toUpperCase() !== 'DELETE') {
-      alert('Please type "DELETE" to confirm application data wipe.');
-      return;
-    }
-
     setIsResetting(true);
     try {
       await factoryResetAllData();
       if (typeof window !== 'undefined') {
         localStorage.clear();
+        sessionStorage.clear();
       }
       if (triggerToast) triggerToast('All application data deleted.');
-      window.location.href = '/';
+      window.location.href = '/workspace';
     } catch (err) {
       console.error(err);
       alert('Failed to reset data. Please restart application.');
@@ -212,8 +208,8 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
                   <button
                     type="button"
                     onClick={handleFactoryReset}
-                    disabled={isResetting || confirmInput.trim().toUpperCase() !== 'DELETE'}
-                    className="px-3.5 py-1.5 text-xs font-bold bg-rose-600 text-white rounded hover:bg-rose-700 disabled:opacity-50 transition-colors flex items-center gap-1"
+                    disabled={isResetting}
+                    className="px-3.5 py-1.5 text-xs font-bold bg-rose-600 text-white rounded hover:bg-rose-700 disabled:opacity-50 transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     {isResetting ? <RefreshCw size={12} className="animate-spin" /> : null}
                     Confirm Permanent Wipe
