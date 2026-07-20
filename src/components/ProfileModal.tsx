@@ -64,25 +64,19 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
 
           <div className="space-y-2 pt-2">
             <button
-              onClick={() => { window.location.href = '/'; }}
+              onClick={() => { window.location.href = '/workspace'; }}
               className="w-full py-3 px-4 bg-[#174f3c] text-white font-bold text-xs rounded-xl hover:bg-[#123e2f] transition-all shadow-md cursor-pointer"
             >
-              Return to Landing Page →
-            </button>
-            <button
-              onClick={() => { window.location.href = '/workspace'; }}
-              className="w-full py-2.5 px-4 bg-stone-100 text-stone-700 font-semibold text-xs rounded-xl hover:bg-stone-200 transition-all cursor-pointer"
-            >
-              Start Fresh Workspace Setup
+              Start Fresh Workspace Setup →
             </button>
             <button
               onClick={() => {
                 try {
                   window.close();
                 } catch {}
-                window.location.href = '/';
+                window.location.href = '/workspace';
               }}
-              className="w-full py-2 px-4 bg-rose-50 text-rose-700 font-semibold text-xs rounded-xl hover:bg-rose-100 transition-all cursor-pointer border border-rose-200"
+              className="w-full py-2.5 px-4 bg-rose-50 text-rose-700 font-semibold text-xs rounded-xl hover:bg-rose-100 transition-all cursor-pointer border border-rose-200"
             >
               Exit & Close Desktop App Window ✖
             </button>
