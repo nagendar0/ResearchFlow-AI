@@ -8,7 +8,6 @@ import {
   BarChart3, Code2, Lightbulb, GraduationCap, Globe
 } from 'lucide-react';
 import { ProfileModal } from '@/components/ProfileModal';
-import { WelcomeOnboardingModal } from '@/components/WelcomeOnboardingModal';
 import { DownloadModal } from '@/components/DownloadModal';
 
 export default function RootLandingPage() {
@@ -534,12 +533,6 @@ export default function RootLandingPage() {
         triggerToast={triggerToast}
       />
 
-      {/* FIRST-TIME WELCOME ONBOARDING MODAL */}
-      <WelcomeOnboardingModal
-        onComplete={(name) => {
-          triggerToast(`Welcome to ResearchFlow AI, ${name}!`);
-        }}
-      />
       {/* STANDALONE DESKTOP DOWNLOAD MODAL */}
       <DownloadModal
         isOpen={isDownloadModalOpen}
