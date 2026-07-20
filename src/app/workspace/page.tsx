@@ -202,14 +202,16 @@ export default function WorkspacePage() {
           <span>+</span> New research
         </button>
 
-        <div className="nav-group">
-          <a className="nav-item active" href="/workspace">
-            <Compass size={16} /> Research workspace
+        <nav className="space-y-1 my-3">
+          <a className="nav-link active flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-lg" href="/workspace">
+            <Compass size={16} className="shrink-0" />
+            <span>Research workspace</span>
           </a>
-          <a className="nav-item" href="/workspace">
-            <BookOpen size={16} /> Evidence library
+          <a className="nav-link flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-lg" href="/workspace">
+            <BookOpen size={16} className="shrink-0" />
+            <span>Evidence library</span>
           </a>
-        </div>
+        </nav>
 
         <div className="projects-section flex-1 overflow-hidden flex flex-col">
           <div className="flex justify-between items-center px-1 mb-2">
