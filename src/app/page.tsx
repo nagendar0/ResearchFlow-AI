@@ -364,39 +364,79 @@ export default function RootLandingPage() {
             <p className="text-sm text-stone-400">Download or run locally on your Windows device for 100% offline local database storage and instant research execution.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Download Option 1: Web Workspace */}
-            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-7 space-y-5 flex flex-col justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Windows Desktop App */}
+            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between hover:border-emerald-500/50 transition-all">
               <div className="space-y-3">
-                <span className="text-[10px] font-mono uppercase bg-emerald-950 text-emerald-400 px-2.5 py-1 rounded">Option 1 • Instant Web Workspace</span>
-                <h3 className="font-serif text-xl font-bold text-white">Browser-Native Workspace</h3>
+                <div className="w-10 h-10 rounded-xl bg-blue-950/80 text-blue-400 border border-blue-800/40 flex items-center justify-center text-xl font-bold">
+                  🪟
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-blue-950 text-blue-400 px-2 py-0.5 rounded">Windows 10 / 11</span>
+                <h3 className="font-serif text-lg font-bold text-white">Windows Desktop App</h3>
                 <p className="text-xs text-stone-400 leading-relaxed">
-                  Launch directly in your web browser. Uses browser IndexedDB memory for 100% client-side privacy without downloading extra desktop installers.
+                  Standalone 64-bit Windows installer (.msi / .exe). Runs natively on your laptop with local SQLite & file storage.
                 </p>
               </div>
-              <button
-                onClick={handleLaunchApp}
-                className="w-full py-3 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              <a
+                href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
-                Launch Browser Workspace <ArrowRight size={14} />
-              </button>
+                <Download size={14} className="text-[#d9f57a]" /> Download for Windows (.msi)
+              </a>
             </div>
 
-            {/* Download Option 2: Desktop Executable / Tauri Bundle */}
-            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-7 space-y-5 flex flex-col justify-between">
+            {/* macOS Desktop App */}
+            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between hover:border-emerald-500/50 transition-all">
               <div className="space-y-3">
-                <span className="text-[10px] font-mono uppercase bg-amber-950 text-amber-400 px-2.5 py-1 rounded">Option 2 • Native Desktop Application</span>
-                <h3 className="font-serif text-xl font-bold text-white">Windows Desktop Bundle</h3>
+                <div className="w-10 h-10 rounded-xl bg-stone-900 text-stone-200 border border-stone-800 flex items-center justify-center text-xl font-bold">
+                  🍎
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-stone-800 text-stone-300 px-2 py-0.5 rounded">Apple Silicon & Intel</span>
+                <h3 className="font-serif text-lg font-bold text-white">macOS Desktop App</h3>
                 <p className="text-xs text-stone-400 leading-relaxed">
-                  Run as a standalone desktop application compiled with Tauri / Rust. Writes clean <code className="text-emerald-400 font-mono">.json</code> and <code className="text-emerald-400 font-mono">.md</code> files directly to your hard-drive directory.
+                  Universal macOS disk image (.dmg). Fully signed desktop package for M1/M2/M3 & Intel Macs.
                 </p>
               </div>
-              <button
-                onClick={handleLaunchApp}
-                className="w-full py-3 text-xs font-bold bg-stone-800 text-stone-200 border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              <a
+                href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 text-xs font-bold bg-stone-800 text-white border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Download size={14} className="text-emerald-400" /> Build Desktop App Bundle
-              </button>
+                <Download size={14} className="text-emerald-400" /> Download for macOS (.dmg)
+              </a>
+            </div>
+
+            {/* Linux Desktop App & Web Demo */}
+            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-6 space-y-4 flex flex-col justify-between hover:border-emerald-500/50 transition-all">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-950/80 text-amber-400 border border-amber-800/40 flex items-center justify-center text-xl font-bold">
+                  🐧
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-amber-950 text-amber-400 px-2 py-0.5 rounded">Linux AppImage / .deb</span>
+                <h3 className="font-serif text-lg font-bold text-white">Linux & Web Demo</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Download Linux package (.AppImage) or try out the interactive web demo preview directly in browser.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <a
+                  href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 text-xs font-bold bg-stone-800 text-white border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Download size={14} className="text-amber-400" /> Download Linux (.AppImage)
+                </a>
+                <button
+                  onClick={handleLaunchApp}
+                  className="w-full py-2 text-[11px] font-semibold text-stone-400 hover:text-white transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  Try Web Demo Preview →
+                </button>
+              </div>
             </div>
           </div>
         </div>
