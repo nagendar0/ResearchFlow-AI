@@ -12,7 +12,7 @@ interface ProfileModalProps {
 }
 
 export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }: ProfileModalProps) {
-  const [userName, setUserName] = useState('Nagen S.');
+  const [userName, setUserName] = useState('User');
   const [workspaceLabel, setWorkspaceLabel] = useState('Personal workspace');
   const [isSaved, setIsSaved] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
@@ -34,7 +34,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
     if (typeof window !== 'undefined') {
-      localStorage.setItem('rf_user_name', userName.trim() || 'Nagen S.');
+      localStorage.setItem('rf_user_name', userName.trim() || 'User');
       localStorage.setItem('rf_workspace_label', workspaceLabel.trim() || 'Personal workspace');
     }
     setIsSaved(true);
@@ -117,7 +117,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#174f3c]/20 focus:border-[#174f3c]"
-                placeholder="e.g. Nagen S."
+                placeholder="e.g. Alex Miller"
               />
             </div>
 

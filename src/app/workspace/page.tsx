@@ -33,7 +33,7 @@ export default function WorkspacePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
-  const [userName, setUserName] = useState('Nagen S.');
+  const [userName, setUserName] = useState('User');
   const [workspaceLabel, setWorkspaceLabel] = useState('Personal workspace');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 

@@ -540,7 +540,7 @@ export default function ProjectWorkspace() {
 
   const [showArchived, setShowArchived] = useState(false);
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
-  const [userName, setUserName] = useState('Nagen S.');
+  const [userName, setUserName] = useState('User');
   const [workspaceLabel, setWorkspaceLabel] = useState('Personal workspace');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 

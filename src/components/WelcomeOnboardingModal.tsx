@@ -25,7 +25,7 @@ export function WelcomeOnboardingModal({ onComplete }: WelcomeOnboardingModalPro
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const finalName = userName.trim() || 'Researcher';
+    const finalName = userName.trim() || 'User';
     const finalLabel = workspaceLabel.trim() || 'Personal workspace';
 
     if (typeof window !== 'undefined') {
@@ -38,7 +38,7 @@ export function WelcomeOnboardingModal({ onComplete }: WelcomeOnboardingModalPro
     onComplete(finalName, finalLabel);
   };
 
-  const initials = (userName.trim() || 'Researcher')
+  const initials = (userName.trim() || 'User')
     .split(/\s+/)
     .map((p) => p[0])
     .join('')
@@ -77,7 +77,7 @@ export function WelcomeOnboardingModal({ onComplete }: WelcomeOnboardingModalPro
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               className="w-full px-4 py-3 text-sm border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#174f3c]/20 focus:border-[#174f3c] transition-all"
-              placeholder="e.g. Nagen S."
+              placeholder="e.g. Alex Miller"
             />
           </div>
 
