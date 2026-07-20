@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { User, Trash2, ShieldAlert, X, Check, RefreshCw } from 'lucide-react';
+import { User, Trash2, ShieldAlert, X, Check, RefreshCw, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { clearAllExplainMessages, factoryResetAllData } from '@/lib/localDb';
 
 interface ProfileModalProps {
@@ -19,6 +19,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
   const [confirmInput, setConfirmInput] = useState('');
   const [isResetting, setIsResetting] = useState(false);
   const [isClearingChat, setIsClearingChat] = useState(false);
+  const [isResetComplete, setIsResetComplete] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -30,6 +31,55 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  if (isResetComplete) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
+        <div className="bg-white rounded-3xl border border-stone-200 shadow-2xl w-full max-w-md overflow-hidden text-center p-8 space-y-6 relative">
+          <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 text-[#174f3c] flex items-center justify-center mx-auto shadow-inner">
+            <ShieldCheck size={36} className="text-[#174f3c]" />
+          </div>
+
+          <div className="space-y-2">
+            <span className="text-[10px] font-mono uppercase bg-emerald-100 text-[#174f3c] px-3 py-1 rounded-full font-bold">
+              FACTORY RESET COMPLETE
+            </span>
+            <h3 className="font-serif font-bold text-2xl text-stone-900">Application Data Erased</h3>
+            <p className="text-xs text-stone-600 leading-relaxed max-w-sm mx-auto">
+              Thank you for researching with <strong>ResearchFlow AI</strong>. All local databases, evidence indexes, research projects, and local user settings have been completely and permanently removed from your device.
+            </p>
+          </div>
+
+          <div className="bg-stone-50 border border-stone-200 rounded-xl p-4 text-left space-y-2 text-xs text-stone-700 font-mono">
+            <div className="flex items-center gap-2 text-emerald-700 font-bold">
+              <CheckCircle2 size={14} /> Local SQLite & IndexedDB Cleared
+            </div>
+            <div className="flex items-center gap-2 text-emerald-700 font-bold">
+              <CheckCircle2 size={14} /> Service Worker Caches Unregistered
+            </div>
+            <div className="flex items-center gap-2 text-emerald-700 font-bold">
+              <CheckCircle2 size={14} /> Zero Trace Left On-Device
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <button
+              onClick={() => { window.location.href = '/'; }}
+              className="w-full py-3 px-4 bg-[#174f3c] text-white font-bold text-xs rounded-xl hover:bg-[#123e2f] transition-all shadow-md cursor-pointer"
+            >
+              Return to Landing Page →
+            </button>
+            <button
+              onClick={() => { window.location.href = '/workspace'; }}
+              className="w-full py-2.5 px-4 bg-stone-100 text-stone-700 font-semibold text-xs rounded-xl hover:bg-stone-200 transition-all cursor-pointer"
+            >
+              Start Fresh Workspace Setup
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,8 +115,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
         localStorage.clear();
         sessionStorage.clear();
       }
-      if (triggerToast) triggerToast('All application data deleted.');
-      window.location.href = '/workspace';
+      setIsResetComplete(true);
     } catch (err) {
       console.error(err);
       alert('Failed to reset data. Please restart application.');
