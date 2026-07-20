@@ -345,70 +345,71 @@ export default function WorkspacePage() {
               rows={3}
             />
 
-            <div className="controls">
-              <div className="selectors">
-                <div className="selector-group flex-wrap gap-2">
-                  <span className="label font-mono text-[10px] text-stone-400 uppercase font-bold">Research Category:</span>
-                  
-                  <button 
-                    type="button" 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${category === 'generalist' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
-                    onClick={() => handleCategorySelect('generalist')}
-                  >
-                    🌐 Generalist
-                  </button>
-
-                  <button 
-                    type="button" 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${category === 'idea' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
-                    onClick={() => handleCategorySelect('idea')}
-                  >
-                    💡 Idea Validation
-                  </button>
-
-                  <button 
-                    type="button" 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${category === 'academic' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
-                    onClick={() => handleCategorySelect('academic')}
-                  >
-                    🎓 Academic Review
-                  </button>
-
-                  <button 
-                    type="button" 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${category === 'market' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
-                    onClick={() => handleCategorySelect('market')}
-                  >
-                    📊 Market Intelligence
-                  </button>
-
-                  <button 
-                    type="button" 
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${category === 'tech' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
-                    onClick={() => handleCategorySelect('tech')}
-                  >
-                    💻 Technical Docs
-                  </button>
-                </div>
+            {/* Category Selector Bar */}
+            <div className="pt-3 border-t border-stone-200/70 mt-3 space-y-2">
+              <div className="text-[10px] font-mono font-bold text-stone-400 uppercase tracking-wider">
+                Research Category:
               </div>
-
-              <div className="actions">
-                <span className="privacy-pill">
-                  <svg className="w-3.5 h-3.5 text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                  </svg>
-                  Web, papers & trusted sources (API-free)
-                </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <button 
+                  type="button" 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${category === 'generalist' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
+                  onClick={() => handleCategorySelect('generalist')}
+                >
+                  🌐 Generalist
+                </button>
 
                 <button 
-                  className="start-button" 
-                  onClick={handleCreateResearch}
-                  disabled={isSubmitting}
+                  type="button" 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${category === 'idea' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
+                  onClick={() => handleCategorySelect('idea')}
                 >
-                  {isSubmitting ? 'Initializing...' : 'Start research →'}
+                  💡 Idea Validation
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${category === 'academic' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
+                  onClick={() => handleCategorySelect('academic')}
+                >
+                  🎓 Academic Review
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${category === 'market' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
+                  onClick={() => handleCategorySelect('market')}
+                >
+                  📊 Market Intelligence
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${category === 'tech' ? 'bg-[#174f3c] text-white border-[#174f3c] shadow-xs' : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'}`}
+                  onClick={() => handleCategorySelect('tech')}
+                >
+                  💻 Technical Docs
                 </button>
               </div>
+            </div>
+
+            {/* Bottom Actions Bar */}
+            <div className="pt-3 border-t border-stone-200/70 mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+                <svg className="w-3.5 h-3.5 text-stone-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Web, papers & trusted sources (API-free)
+              </span>
+
+              <button 
+                className="px-5 py-2.5 bg-[#174f3c] text-white font-bold text-xs rounded-xl hover:bg-[#123e2f] transition-all shadow-md shadow-[#174f3c]/20 flex items-center gap-1.5 cursor-pointer sm:ml-auto" 
+                onClick={handleCreateResearch}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Initializing...' : 'Start research →'}
+              </button>
             </div>
           </div>
 

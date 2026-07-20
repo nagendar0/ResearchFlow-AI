@@ -15,8 +15,7 @@ export function WelcomeOnboardingModal({ onComplete }: WelcomeOnboardingModalPro
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const isOnboarded = localStorage.getItem('rf_onboarded');
-      const existingName = localStorage.getItem('rf_user_name');
-      if (!isOnboarded && !existingName) {
+      if (!isOnboarded) {
         setIsOpen(true);
       }
     }
