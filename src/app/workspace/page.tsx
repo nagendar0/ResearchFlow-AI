@@ -41,8 +41,16 @@ export default function WorkspacePage() {
     if (typeof window !== 'undefined') {
       const savedName = localStorage.getItem('rf_user_name');
       const savedLabel = localStorage.getItem('rf_workspace_label');
-      if (savedName) setUserName(savedName);
-      if (savedLabel) setWorkspaceLabel(savedLabel);
+      if (savedName && savedName.trim()) {
+        setUserName(savedName);
+      } else {
+        setUserName('User');
+      }
+      if (savedLabel && savedLabel.trim()) {
+        setWorkspaceLabel(savedLabel);
+      } else {
+        setWorkspaceLabel('Personal workspace');
+      }
     }
   };
 

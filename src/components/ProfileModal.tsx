@@ -64,7 +64,15 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
 
           <div className="space-y-2 pt-2">
             <button
-              onClick={() => { window.location.href = '/workspace'; }}
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  localStorage.removeItem('rf_user_name');
+                  localStorage.removeItem('rf_workspace_label');
+                  localStorage.removeItem('rf_onboarded');
+                  localStorage.clear();
+                }
+                window.location.href = '/workspace';
+              }}
               className="w-full py-3 px-4 bg-[#174f3c] text-white font-bold text-xs rounded-xl hover:bg-[#123e2f] transition-all shadow-md cursor-pointer"
             >
               Start Fresh Workspace Setup →
@@ -117,6 +125,9 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
     try {
       await factoryResetAllData();
       if (typeof window !== 'undefined') {
+        localStorage.removeItem('rf_user_name');
+        localStorage.removeItem('rf_workspace_label');
+        localStorage.removeItem('rf_onboarded');
         localStorage.clear();
         sessionStorage.clear();
       }
