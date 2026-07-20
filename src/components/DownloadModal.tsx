@@ -33,6 +33,11 @@ export function DownloadModal({ isOpen, onClose, osType = 'all' }: DownloadModal
   if (!isOpen) return null;
 
   const handleLaunchOrInstallApp = async () => {
+    if (typeof window !== 'undefined') {
+      if (!localStorage.getItem('rf_user_name')) {
+        localStorage.removeItem('rf_onboarded');
+      }
+    }
     if (deferredPrompt) {
       try {
         deferredPrompt.prompt();
