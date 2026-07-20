@@ -169,64 +169,135 @@ export default function LandingPage() {
             <p className="text-sm text-stone-600">See how our evidence-first desktop architecture compares with standard AI wrappers and web search engines.</p>
           </div>
 
-          <div className="bg-white border border-stone-200 rounded-2xl shadow-sm overflow-x-auto">
+          <div className="bg-white border border-stone-200/90 rounded-2xl shadow-sm overflow-hidden">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-stone-100/70 border-b border-stone-200 text-stone-700">
-                  <th className="p-4 font-bold uppercase tracking-wider">Feature Dimension</th>
-                  <th className="p-4 font-bold text-[#174f3c] bg-emerald-50/50 border-x border-emerald-100/80">ResearchFlow AI</th>
-                  <th className="p-4 font-semibold text-stone-600">Standard AI Search Wrappers</th>
-                  <th className="p-4 font-semibold text-stone-600">Generic Search Engines</th>
+                <tr className="bg-stone-100/80 border-b border-stone-200 text-stone-700">
+                  <th className="p-4 font-bold uppercase tracking-wider text-[11px] w-1/4">Feature Dimension</th>
+                  <th className="p-4 font-bold text-[#174f3c] bg-emerald-50/70 border-x border-emerald-200/80 w-1/3">
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <span className="w-5 h-5 rounded-md bg-[#174f3c] text-white flex items-center justify-center text-xs">✓</span>
+                      ResearchFlow AI
+                    </div>
+                  </th>
+                  <th className="p-4 font-semibold text-stone-700 w-1/4">Standard AI Search Wrappers</th>
+                  <th className="p-4 font-semibold text-stone-700 w-1/4">Generic Search Engines</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
-                <tr>
-                  <td className="p-4 font-bold text-stone-850">Data Privacy & Ownership</td>
-                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 100% Local On-Device Storage
+              <tbody className="divide-y divide-stone-200/60">
+                {/* Row 1 */}
+                <tr className="hover:bg-stone-50/50 transition-colors">
+                  <td className="p-4 font-bold text-stone-900 align-middle">Data Privacy & Ownership</td>
+                  <td className="p-4 bg-emerald-50/30 border-x border-emerald-100 text-emerald-950 font-semibold align-middle">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                      <span>100% Local On-Device Storage</span>
+                    </div>
                   </td>
-                  <td className="p-4 text-stone-600">Cloud servers & user logging</td>
-                  <td className="p-4 text-stone-600">Ad tracking & query profiling</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-stone-850">Verifiable Excerpt Citations</td>
-                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> Verifiable Passages & Quality Scores
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Cloud servers & user logging</span>
+                    </div>
                   </td>
-                  <td className="p-4 text-stone-500 flex items-center gap-1">
-                    <XCircle size={14} className="text-rose-500 shrink-0" /> Unverifiable AI Summaries
-                  </td>
-                  <td className="p-4 text-stone-600">Raw links without synthesis</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-stone-850">Category-Specific Retrieval</td>
-                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 5 Custom Category Engines
-                  </td>
-                  <td className="p-4 text-stone-500 flex items-center gap-1">
-                    <XCircle size={14} className="text-rose-500 shrink-0" /> One-size-fits-all query generator
-                  </td>
-                  <td className="p-4 text-stone-600">Generic page rank</td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-bold text-stone-850">Offline Local Index Cache</td>
-                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> Local Database Expiry & Fast Cache
-                  </td>
-                  <td className="p-4 text-stone-500 flex items-center gap-1">
-                    <XCircle size={14} className="text-rose-500 shrink-0" /> Requires continuous paid cloud subscription
-                  </td>
-                  <td className="p-4 text-stone-500 flex items-center gap-1">
-                    <XCircle size={14} className="text-rose-500 shrink-0" /> No local persistent evidence ledger
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Ad tracking & query profiling</span>
+                    </div>
                   </td>
                 </tr>
-                <tr>
-                  <td className="p-4 font-bold text-stone-850">Cost & API Key Requirements</td>
-                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 100% Free Public Sources & Endpoints
+
+                {/* Row 2 */}
+                <tr className="hover:bg-stone-50/50 transition-colors">
+                  <td className="p-4 font-bold text-stone-900 align-middle">Verifiable Excerpt Citations</td>
+                  <td className="p-4 bg-emerald-50/30 border-x border-emerald-100 text-emerald-950 font-semibold align-middle">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                      <span>Verifiable Passages & Quality Scores</span>
+                    </div>
                   </td>
-                  <td className="p-4 text-stone-600">$20–$200/month or paid API keys</td>
-                  <td className="p-4 text-stone-600">Free with heavy ads</td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Unverifiable AI Summaries</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Raw links without synthesis</span>
+                    </div>
+                  </td>
+                </tr>
+
+                {/* Row 3 */}
+                <tr className="hover:bg-stone-50/50 transition-colors">
+                  <td className="p-4 font-bold text-stone-900 align-middle">Category-Specific Retrieval</td>
+                  <td className="p-4 bg-emerald-50/30 border-x border-emerald-100 text-emerald-950 font-semibold align-middle">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                      <span>5 Custom Category Engines</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>One-size-fits-all query generator</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Generic page rank</span>
+                    </div>
+                  </td>
+                </tr>
+
+                {/* Row 4 */}
+                <tr className="hover:bg-stone-50/50 transition-colors">
+                  <td className="p-4 font-bold text-stone-900 align-middle">Offline Local Index Cache</td>
+                  <td className="p-4 bg-emerald-50/30 border-x border-emerald-100 text-emerald-950 font-semibold align-middle">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                      <span>Local Database Expiry & Fast Cache</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Requires paid cloud subscription</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>No persistent local evidence ledger</span>
+                    </div>
+                  </td>
+                </tr>
+
+                {/* Row 5 */}
+                <tr className="hover:bg-stone-50/50 transition-colors">
+                  <td className="p-4 font-bold text-stone-900 align-middle">Cost & API Key Requirements</td>
+                  <td className="p-4 bg-emerald-50/30 border-x border-emerald-100 text-emerald-950 font-semibold align-middle">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                      <span>100% Free Public Sources & Endpoints</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>$20–$200/month or paid API keys</span>
+                    </div>
+                  </td>
+                  <td className="p-4 text-stone-600 align-middle">
+                    <div className="flex items-center gap-2">
+                      <XCircle size={15} className="text-rose-400 shrink-0" />
+                      <span>Free with heavy ads</span>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
