@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
     apple: "/icon.svg",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -22,6 +23,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="manifest" href="/manifest.json" />
         {/* RootLayout is shared by every App Router route; this is not a page-scoped font. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link 

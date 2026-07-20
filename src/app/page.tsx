@@ -9,15 +9,23 @@ import {
 } from 'lucide-react';
 import { ProfileModal } from '@/components/ProfileModal';
 import { WelcomeOnboardingModal } from '@/components/WelcomeOnboardingModal';
+import { DownloadModal } from '@/components/DownloadModal';
 
 export default function RootLandingPage() {
   const router = useRouter();
   const [activeCategoryTab, setActiveCategoryTab] = useState<'idea' | 'market' | 'tech' | 'academic' | 'generalist'>('idea');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [selectedOs, setSelectedOs] = useState<'windows' | 'mac' | 'linux' | 'all'>('all');
   const [toastMessage, setToastMessage] = useState('');
 
   const handleLaunchApp = () => {
     router.push('/workspace');
+  };
+
+  const handleOpenDownloadModal = (os: 'windows' | 'mac' | 'linux' | 'all' = 'all') => {
+    setSelectedOs(os);
+    setIsDownloadModalOpen(true);
   };
 
   const triggerToast = (msg: string) => {
@@ -371,14 +379,12 @@ export default function RootLandingPage() {
                   Standalone 64-bit Windows installer (.msi / .exe). Runs natively on your laptop with local SQLite & file storage.
                 </p>
               </div>
-              <a
-                href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => handleOpenDownloadModal('windows')}
                 className="w-full py-3 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
                 <Download size={14} className="text-[#d9f57a]" /> Download for Windows (.msi)
-              </a>
+              </button>
             </div>
 
             {/* macOS Desktop App */}
@@ -393,14 +399,12 @@ export default function RootLandingPage() {
                   Universal macOS disk image (.dmg). Fully signed desktop package for M1/M2/M3 & Intel Macs.
                 </p>
               </div>
-              <a
-                href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => handleOpenDownloadModal('mac')}
                 className="w-full py-3 text-xs font-bold bg-stone-800 text-white border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Download size={14} className="text-emerald-400" /> Download for macOS (.dmg)
-              </a>
+              </button>
             </div>
 
             {/* Linux Desktop App & Web Demo */}
@@ -416,14 +420,12 @@ export default function RootLandingPage() {
                 </p>
               </div>
               <div className="space-y-2">
-                <a
-                  href="https://github.com/nagendar0/ResearchFlow-AI/releases/latest"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => handleOpenDownloadModal('linux')}
                   className="w-full py-2.5 text-xs font-bold bg-stone-800 text-white border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Download size={14} className="text-amber-400" /> Download Linux (.AppImage)
-                </a>
+                </button>
                 <button
                   onClick={handleLaunchApp}
                   className="w-full py-2 text-[11px] font-semibold text-stone-400 hover:text-white transition-colors flex items-center justify-center gap-1 cursor-pointer"
@@ -467,6 +469,13 @@ export default function RootLandingPage() {
           triggerToast(`Welcome to ResearchFlow AI, ${name}!`);
         }}
       />
+      {/* STANDALONE DESKTOP DOWNLOAD MODAL */}
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+        osType={selectedOs}
+      />
+
       {/* TOAST NOTIFICATION */}
       <div className={`toast ${toastMessage ? 'show' : ''}`} role="status">
         {toastMessage}

@@ -1,0 +1,17 @@
+{
+  "name": "ResearchFlow AI",
+  "short_name": "ResearchFlow",
+  "description": "Local-First Evidence Research Agent",
+  "start_url": "/workspace",
+  "display": "standalone",
+  "background_color": "#174f3c",
+  "theme_color": "#174f3c",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
