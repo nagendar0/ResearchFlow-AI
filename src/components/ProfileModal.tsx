@@ -75,6 +75,17 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
             >
               Start Fresh Workspace Setup
             </button>
+            <button
+              onClick={() => {
+                try {
+                  window.close();
+                } catch {}
+                window.location.href = '/';
+              }}
+              className="w-full py-2 px-4 bg-rose-50 text-rose-700 font-semibold text-xs rounded-xl hover:bg-rose-100 transition-all cursor-pointer border border-rose-200"
+            >
+              Exit & Close Desktop App Window ✖
+            </button>
           </div>
         </div>
       </div>
