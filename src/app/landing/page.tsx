@@ -42,15 +42,9 @@ export default function LandingPage() {
           <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <button 
               onClick={handleScrollToDownload}
-              className="text-xs font-semibold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 hidden sm:flex cursor-pointer"
-            >
-              <Download size={14} /> Desktop Build
-            </button>
-            <button 
-              onClick={handleLaunchApp}
               className="px-4 py-2 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all shadow-md shadow-[#174f3c]/20 hover:shadow-lg flex items-center gap-1.5 cursor-pointer shrink-0"
             >
-              Launch Workspace <ArrowRight size={14} />
+              <Download size={14} className="text-[#d9f57a]" /> Download Application
             </button>
           </div>
         </div>
@@ -76,16 +70,16 @@ export default function LandingPage() {
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button 
-              onClick={handleLaunchApp}
-              className="w-full sm:w-auto px-7 py-3.5 text-sm font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all shadow-lg shadow-[#174f3c]/25 flex items-center justify-center gap-2 hover:scale-[1.02]"
+              onClick={handleScrollToDownload}
+              className="w-full sm:w-auto px-7 py-3.5 text-sm font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all shadow-lg shadow-[#174f3c]/25 flex items-center justify-center gap-2 hover:scale-[1.02] cursor-pointer"
             >
-              Start Free Research Workspace <ArrowRight size={16} />
+              <Download size={16} className="text-[#d9f57a]" /> Download Desktop Application
             </button>
             <button 
-              onClick={handleScrollToDownload}
-              className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-xl hover:bg-stone-50 hover:border-stone-400 transition-all flex items-center justify-center gap-2 shadow-xs"
+              onClick={handleLaunchApp}
+              className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-xl hover:bg-stone-50 hover:border-stone-400 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
             >
-              <Download size={16} className="text-[#174f3c]" /> Download Desktop App
+              Try Web Demo Preview <ArrowRight size={16} className="text-[#174f3c]" />
             </button>
           </div>
 
