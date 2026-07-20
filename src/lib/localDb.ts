@@ -640,6 +640,17 @@ export async function factoryResetAllData(): Promise<void> {
   }
 
   if (typeof window !== 'undefined') {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const reg of registrations) {
+          await reg.unregister();
+        }
+      } catch (e) {
+        console.warn('Service worker unregister error:', e);
+      }
+    }
+
     if (window.indexedDB) {
       try {
         window.indexedDB.deleteDatabase('ResearchFlowDB');

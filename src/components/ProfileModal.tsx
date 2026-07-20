@@ -167,9 +167,10 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
           <hr className="border-stone-200" />
 
           {/* Section 3: Danger Zone */}
+          {/* Section 3: Danger Zone & Desktop Uninstallation */}
           <div className="bg-rose-50/70 border border-rose-200 rounded-xl p-4 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-rose-800 flex items-center gap-1.5">
-              <ShieldAlert size={14} className="text-rose-600" /> Danger Zone
+              <ShieldAlert size={14} className="text-rose-600" /> Danger Zone & Desktop Uninstallation
             </h4>
             <p className="text-xs text-rose-700 leading-relaxed">
               Permanently wipe all local projects, evidence matrices, cached search indexes, and custom settings from this device.
@@ -179,7 +180,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
               <button
                 type="button"
                 onClick={() => setShowConfirmReset(true)}
-                className="px-3.5 py-2 text-xs font-bold bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center gap-1.5 shadow-sm"
+                className="px-3.5 py-2 text-xs font-bold bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <Trash2 size={13} />
                 Delete All Application Data (Factory Reset)
@@ -201,7 +202,7 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
                       setShowConfirmReset(false);
                       setConfirmInput('');
                     }}
-                    className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded"
+                    className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100 rounded cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -217,6 +218,24 @@ export function ProfileModal({ isOpen, onClose, onProfileUpdated, triggerToast }
                 </div>
               </div>
             )}
+
+            {/* Desktop App Removal Guide */}
+            <div className="mt-4 pt-3 border-t border-rose-200/80 space-y-2">
+              <span className="text-[10px] font-mono font-bold text-rose-900 uppercase tracking-wider block">
+                💻 How to Completely Uninstall Desktop App from Laptop:
+              </span>
+              <ul className="text-[11px] text-stone-700 space-y-1.5 bg-white/80 p-3 rounded-lg border border-rose-200/60 leading-relaxed font-sans">
+                <li>
+                  <strong>🪟 Windows 10 / 11:</strong> Go to <code className="bg-stone-100 px-1 rounded">Start → Settings → Apps → Installed Apps</code>, search <strong>ResearchFlow AI</strong>, and click <strong>Uninstall</strong>.
+                </li>
+                <li>
+                  <strong>🍎 macOS:</strong> Open <code className="bg-stone-100 px-1 rounded">Finder → Applications</code>, right click <strong>ResearchFlow AI</strong>, and select <strong>Move to Trash</strong>.
+                </li>
+                <li>
+                  <strong>🌐 Installed Desktop App (PWA):</strong> Click the <strong>3 dots (⋮)</strong> at top-right of app window bar → Select <strong>"Uninstall ResearchFlow AI..."</strong> → Check <em>"Also clear data"</em> → Click <strong>Remove</strong>.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
