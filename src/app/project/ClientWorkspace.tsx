@@ -1306,7 +1306,7 @@ export default function ProjectWorkspace() {
           </span>
           <span>ResearchFlow AI</span>
         </a>
-        <button className="new-research" onClick={() => router.push('/')}>
+        <button className="new-research" onClick={() => router.push('/workspace')}>
           <span>＋</span> New research
         </button>
         <nav aria-label="Primary">

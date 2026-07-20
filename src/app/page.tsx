@@ -1,429 +1,438 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Compass, BookOpen } from 'lucide-react';
-import { getAllProjects, saveProject, deleteProject } from '@/lib/localDb';
+import { 
+  ShieldCheck, Database, Cpu, CheckCircle2, XCircle, 
+  ArrowRight, Download, Laptop, Lock, Sparkles, Layers, 
+  BarChart3, Code2, Lightbulb, GraduationCap, Globe
+} from 'lucide-react';
 import { ProfileModal } from '@/components/ProfileModal';
 import { WelcomeOnboardingModal } from '@/components/WelcomeOnboardingModal';
 
-interface Project {
-  id: string;
-  title: string;
-  question: string;
-  status: string;
-  audience?: string;
-  depth?: string;
-  source_policy?: string;
-  created_at: string;
-  archived?: boolean;
-  pinned?: boolean;
-}
-
-export default function HomePage() {
+export default function RootLandingPage() {
   const router = useRouter();
-  const [question, setQuestion] = useState('');
-  const audience = 'Student';
-  const depth = 'Standard';
-  const sourcePolicy = 'Default';
-  const [category, setCategory] = useState('generalist');
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loadingProjects, setLoadingProjects] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
-  const [userName, setUserName] = useState('Nagen S.');
-  const [workspaceLabel, setWorkspaceLabel] = useState('Personal workspace');
+  const [activeCategoryTab, setActiveCategoryTab] = useState<'idea' | 'market' | 'tech' | 'academic' | 'generalist'>('idea');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
-  const loadUserProfile = () => {
-    if (typeof window !== 'undefined') {
-      const savedName = localStorage.getItem('rf_user_name');
-      const savedLabel = localStorage.getItem('rf_workspace_label');
-      if (savedName) setUserName(savedName);
-      if (savedLabel) setWorkspaceLabel(savedLabel);
-    }
-  };
-
-  useEffect(() => {
-    loadUserProfile();
-  }, []);
-
-  const avatarInitials = userName
-    .trim()
-    .split(/\s+/)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2) || 'NS';
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handleGlobalClick = () => setActiveMenuId(null);
-    window.addEventListener('click', handleGlobalClick);
-    return () => window.removeEventListener('click', handleGlobalClick);
-  }, []);
-
-  const getPlaceholderText = (cat: string) => {
-    switch (cat) {
-      case 'generalist': return 'e.g. Research quantum computing for a first-year engineering student';
-      case 'idea': return 'e.g. Is there an app or service that allows renting high-end camera gear locally? Analyze competition.';
-      case 'academic': return 'e.g. What are the latest breakthroughs and experimental consensus in nuclear fusion confinement?';
-      case 'market': return 'e.g. Map the competitive landscape for carbon removal startups in India.';
-      case 'tech': return 'e.g. How do Next.js 15 Server Actions handle concurrency and parallel database connections?';
-      default: return 'e.g. Research quantum computing for a first-year engineering student';
-    }
-  };
-
-  const handleCategorySelect = (cat: string) => {
-    setCategory(cat);
-  };
-
-  const [showArchived, setShowArchived] = useState(false);
-
-  const loadProjects = async () => {
-    try {
-      const localProjects = await getAllProjects();
-      const sorted = (localProjects as any[]).sort((a, b) => {
-        const pinA = a.pinned ? 1 : 0;
-        const pinB = b.pinned ? 1 : 0;
-        if (pinA !== pinB) {
-          return pinB - pinA;
-        }
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      });
-      setProjects(sorted);
-    } catch (e) {
-      console.error('Error loading projects:', e);
-    } finally {
-      setLoadingProjects(false);
-    }
-  };
-
-  // Fetch projects on load
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
-  const handleTogglePin = async (p: any) => {
-    const updated = { ...p, pinned: !p.pinned };
-    await saveProject(updated);
-    triggerToast(updated.pinned ? 'Project pinned.' : 'Project unpinned.');
-    await loadProjects();
-  };
-
-  const handleToggleArchive = async (p: any) => {
-    const updated = { ...p, archived: !p.archived };
-    await saveProject(updated);
-    triggerToast(updated.archived ? 'Project archived.' : 'Project unarchived.');
-    await loadProjects();
-  };
-
-  const handleDeleteProject = async (projectId: string) => {
-    if (window.confirm('Are you sure you want to permanently delete this research project?')) {
-      await deleteProject(projectId);
-      triggerToast('Project deleted.');
-      await loadProjects();
-    }
+  const handleLaunchApp = () => {
+    router.push('/workspace');
   };
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(''), 3000);
   };
-  const handleStartResearch = async () => {
-    const q = question.trim();
-    if (!q) {
-      triggerToast('Please enter a research topic or question to start.');
-      return;
-    }
 
-    setIsSubmitting(true);
-    try {
-      const projectId = crypto.randomUUID();
-      const newProj = {
-        id: projectId,
-        title: q.length > 40 ? q.slice(0, 40) + '...' : q,
-        question: q,
-        audience,
-        depth,
-        source_policy: sourcePolicy,
-        category,
-        status: 'idle' as const,
-        created_at: new Date().toISOString(),
-      };
-      await saveProject(newProj);
-      triggerToast('Project initialized. Routing to research desk...');
-      router.push(`/project?id=${projectId}&run=true`);
-    } catch (e) {
-      console.error(e);
-      triggerToast('Could not initialize local project. Check space.');
-    } finally {
-      setIsSubmitting(false);
+  const handleScrollToDownload = () => {
+    const el = document.getElementById('download-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleSuggestionClick = (suggestedQ: string) => {
-    setQuestion(suggestedQ);
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* SIDEBAR */}
-      <aside className="sidebar">
-        <a className="brand" href="/">
-          <span className="brand-mark bg-[#174f3c] text-[#d9f57a] flex items-center justify-center rounded-lg" style={{ padding: '4px' }}>
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              <polyline points="8 11 10 13 14 9"></polyline>
-            </svg>
-          </span>
-          <span>ResearchFlow AI</span>
-        </a>
-        <button className="new-research" onClick={() => router.push('/')}>
-          <span>＋</span> New research
-        </button>
-        <nav aria-label="Primary">
-          <a className="nav-link active" href="/">
-            <span className="mr-2"><Compass size={16} className="inline mr-2" /></span> Research workspace
-          </a>
-          <a className="nav-link" href="#" onClick={() => triggerToast('Library view available in specific project workspaces.')}>
-            <span className="mr-2"><BookOpen size={16} className="inline mr-2" /></span> Evidence library
-          </a>
-        </nav>
+    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans selection:bg-[#d8f0df] selection:text-[#174f3c]">
+      {/* NAVIGATION HEADER */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-200/80 px-6 py-4 transition-all">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={handleLaunchApp}>
+            <div className="w-9 h-9 rounded-xl bg-[#174f3c] text-[#d9f57a] flex items-center justify-center font-bold shadow-md shadow-[#174f3c]/10">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <polyline points="8 11 10 13 14 9"></polyline>
+              </svg>
+            </div>
+            <span className="font-serif font-bold text-xl text-stone-850 tracking-tight">ResearchFlow AI</span>
+          </div>
 
-        {/* Existing Projects section in Sidebar */}
-        <div className="mt-8 flex flex-col flex-1 min-h-0">
-          <div className="flex justify-between items-center px-2 mb-2 shrink-0">
-            <p className="eyebrow uppercase tracking-wider">RECENT PROJECTS</p>
+          <div className="flex items-center gap-4">
             <button 
-              onClick={() => setShowArchived(!showArchived)}
-              className="text-[9px] font-bold text-stone-500 hover:text-[#174f3c] uppercase tracking-wider transition-colors"
+              onClick={handleScrollToDownload}
+              className="text-xs font-semibold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 hidden sm:flex cursor-pointer"
             >
-              {showArchived ? "Show Active" : "Show Archived"}
+              <Download size={14} /> Desktop Build
+            </button>
+            <button 
+              onClick={handleLaunchApp}
+              className="px-4 py-2 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all shadow-md shadow-[#174f3c]/20 hover:shadow-lg flex items-center gap-1.5 cursor-pointer"
+            >
+              Launch Workspace <ArrowRight size={14} />
             </button>
           </div>
-          <div className="project-sidebar-list flex-1 overflow-y-auto pr-1" style={{ alignContent: 'start' }}>
-            {loadingProjects ? (
-              <p className="text-xs text-stone-400 px-2 italic">Loading library...</p>
-            ) : projects.filter(p => showArchived ? p.archived : !p.archived).length === 0 ? (
-              <p className="text-xs text-stone-400 px-2 italic">
-                {showArchived ? "No archived projects." : "No active projects."}
+        </div>
+      </header>
+
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden pt-16 pb-20 px-6 bg-gradient-to-b from-stone-100/60 via-stone-50 to-white">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-tr from-emerald-100/30 to-amber-100/20 blur-3xl pointer-events-none rounded-full"></div>
+
+        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[#174f3c] text-xs font-semibold shadow-xs">
+            <Sparkles size={13} className="text-emerald-600 animate-pulse" />
+            <span>Local-First • Zero Paid APIs • Verifiable Evidence Engine</span>
+          </div>
+
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold text-stone-900 tracking-tight leading-[1.15]">
+            An evidence-first research agent that turns questions into <em className="italic font-serif text-[#174f3c] underline decoration-emerald-300 decoration-wavy underline-offset-8">reusable workspaces.</em>
+          </h1>
+
+          <p className="text-base sm:text-lg text-stone-600 max-w-3xl mx-auto font-normal leading-relaxed">
+            Stop trusting hallucinated summaries. ResearchFlow AI extracts structured research scope, crawls public web & paper indexes, corroborates verifiable passages, and stores 100% of your data privately on your local drive.
+          </p>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button 
+              onClick={handleLaunchApp}
+              className="w-full sm:w-auto px-7 py-3.5 text-sm font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all shadow-lg shadow-[#174f3c]/25 flex items-center justify-center gap-2 hover:scale-[1.02] cursor-pointer"
+            >
+              Start Free Research Workspace <ArrowRight size={16} />
+            </button>
+            <button 
+              onClick={handleScrollToDownload}
+              className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-xl hover:bg-stone-50 hover:border-stone-400 transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+            >
+              <Download size={16} className="text-[#174f3c]" /> Download Desktop App
+            </button>
+          </div>
+
+          {/* Trust Highlights */}
+          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-left max-w-4xl mx-auto border-t border-stone-200/60 mt-12">
+            <div className="flex items-center gap-2.5 text-xs text-stone-600 font-medium">
+              <Lock size={16} className="text-[#174f3c] shrink-0" />
+              <span>100% On-Device Privacy</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-stone-600 font-medium">
+              <ShieldCheck size={16} className="text-[#174f3c] shrink-0" />
+              <span>Zero Artificial Hallucinations</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-stone-600 font-medium">
+              <Database size={16} className="text-[#174f3c] shrink-0" />
+              <span>Indexed Offline Cache</span>
+            </div>
+            <div className="flex items-center gap-2.5 text-xs text-stone-600 font-medium">
+              <Layers size={16} className="text-[#174f3c] shrink-0" />
+              <span>5 Category Intelligence Engines</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY DIFFERENT: FEATURE GRID */}
+      <section className="py-20 px-6 bg-white border-y border-stone-200">
+        <div className="max-w-7xl mx-auto space-y-14">
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#174f3c]">Architectural Distinction</p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">Why ResearchFlow AI is Different</h2>
+            <p className="text-sm text-stone-600">Built ground-up to eliminate artificial hallucinations, protect research privacy, and deliver category-specialized evidence.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-7 space-y-4 hover:shadow-md transition-all">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100/70 text-[#174f3c] flex items-center justify-center">
+                <ShieldCheck size={24} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-stone-900">Grounding Over Speculation</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Standard AI chat assistants invent quotes, fake DOI citations, and fabricate stats. ResearchFlow AI links every claim directly to indexed public web passages with explicit confidence metrics (<span className="text-emerald-700 font-bold">High-quality</span>, <span className="text-amber-700 font-bold">Supporting</span>, <span className="text-rose-700 font-bold">Conflicting</span>).
               </p>
-            ) : (
-              projects.filter(p => showArchived ? p.archived : !p.archived).map((p) => (
-                <div
-                  key={p.id}
-                  className="group relative flex items-center justify-between rounded-lg hover:bg-stone-150 transition-colors w-full min-w-0"
-                >
-                  <a
-                    href={`/project?id=${p.id}`}
-                    className="project-sidebar-item flex-1 truncate pr-8 min-w-0"
-                    title={p.question}
-                  >
-                    {p.pinned && <span className="mr-1 text-[10px]">📌</span>}
-                    {p.title}
-                  </a>
-                  
-                  {/* Three-dots Menu Trigger */}
-                  <div className="relative flex items-center pr-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setActiveMenuId(activeMenuId === p.id ? null : p.id);
-                      }}
-                      className="p-1 rounded text-stone-500 hover:text-[#174f3c] hover:bg-stone-200 transition-colors"
-                      title="More actions"
-                    >
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="1.5"></circle>
-                        <circle cx="19" cy="12" r="1.5"></circle>
-                        <circle cx="5" cy="12" r="1.5"></circle>
-                      </svg>
-                    </button>
-                    
-                    {/* Dropdown Menu */}
-                    {activeMenuId === p.id && (
-                      <div className="absolute right-0 top-7 w-32 bg-white border border-stone-200 rounded-lg shadow-lg z-50 py-1 font-sans text-xs">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleTogglePin(p);
-                            setActiveMenuId(null);
-                          }}
-                          className="w-full text-left px-3 py-2 text-stone-750 hover:bg-stone-50 transition-colors flex items-center gap-1.5 font-sans"
-                        >
-                          <span>📌</span> {p.pinned ? "Unpin" : "Pin"}
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleToggleArchive(p);
-                            setActiveMenuId(null);
-                          }}
-                          className="w-full text-left px-3 py-2 text-stone-750 hover:bg-stone-50 transition-colors flex items-center gap-1.5 font-sans"
-                        >
-                          <span>📦</span> {p.archived ? "Unarchive" : "Archive"}
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleDeleteProject(p.id);
-                            setActiveMenuId(null);
-                          }}
-                          className="w-full text-left px-3 py-2 text-red-650 hover:bg-red-50 transition-colors flex items-center gap-1.5 font-sans"
-                        >
-                          <span>🗑️</span> Delete
-                        </button>
-                      </div>
-                    )}
-                  </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-7 space-y-4 hover:shadow-md transition-all">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100/70 text-[#174f3c] flex items-center justify-center">
+                <Lock size={24} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-stone-900">100% On-Device Privacy</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                No cloud database, no subscription lock-in, and zero third-party AI tracking. Your projects, downloaded source excerpts, Decision Brief reports, and local cache remain stored strictly on your device’s hard drive.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-stone-50 border border-stone-200/80 rounded-2xl p-7 space-y-4 hover:shadow-md transition-all">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100/70 text-[#174f3c] flex items-center justify-center">
+                <Cpu size={24} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-stone-900">Topic vs. Audience Scope Extraction</h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Queries like <em>"Research quantum computing for a first-year student"</em> usually return papers about engineering education instead of quantum physics. ResearchFlow AI isolates <code className="bg-stone-200 px-1 py-0.5 rounded text-[11px]">primaryTopic</code> for source crawling while tailoring readability to the audience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARISON MATRIX TABLE */}
+      <section className="py-20 px-6 bg-stone-50">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#174f3c]">Feature Comparison</p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">ResearchFlow AI vs. Traditional Solutions</h2>
+            <p className="text-sm text-stone-600">See how our evidence-first desktop architecture compares with standard AI wrappers and web search engines.</p>
+          </div>
+
+          <div className="bg-white border border-stone-200 rounded-2xl shadow-sm overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-stone-100/70 border-b border-stone-200 text-stone-700">
+                  <th className="p-4 font-bold uppercase tracking-wider">Feature Dimension</th>
+                  <th className="p-4 font-bold text-[#174f3c] bg-emerald-50/50 border-x border-emerald-100/80">ResearchFlow AI</th>
+                  <th className="p-4 font-semibold text-stone-600">Standard AI Search Wrappers</th>
+                  <th className="p-4 font-semibold text-stone-600">Generic Search Engines</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                <tr>
+                  <td className="p-4 font-bold text-stone-850">Data Privacy & Ownership</td>
+                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 100% Local On-Device Storage
+                  </td>
+                  <td className="p-4 text-stone-600">Cloud servers & user logging</td>
+                  <td className="p-4 text-stone-600">Ad tracking & query profiling</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-stone-850">Verifiable Excerpt Citations</td>
+                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> Verifiable Passages & Quality Scores
+                  </td>
+                  <td className="p-4 text-stone-500 flex items-center gap-1">
+                    <XCircle size={14} className="text-rose-500 shrink-0" /> Unverifiable AI Summaries
+                  </td>
+                  <td className="p-4 text-stone-600">Raw links without synthesis</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-stone-850">Category-Specific Retrieval</td>
+                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 5 Custom Category Engines
+                  </td>
+                  <td className="p-4 text-stone-500 flex items-center gap-1">
+                    <XCircle size={14} className="text-rose-500 shrink-0" /> One-size-fits-all query generator
+                  </td>
+                  <td className="p-4 text-stone-600">Generic page rank</td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-stone-850">Offline Local Index Cache</td>
+                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> Local Database Expiry & Fast Cache
+                  </td>
+                  <td className="p-4 text-stone-500 flex items-center gap-1">
+                    <XCircle size={14} className="text-rose-500 shrink-0" /> Requires continuous paid cloud subscription
+                  </td>
+                  <td className="p-4 text-stone-500 flex items-center gap-1">
+                    <XCircle size={14} className="text-rose-500 shrink-0" /> No local persistent evidence ledger
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-4 font-bold text-stone-850">Cost & API Key Requirements</td>
+                  <td className="p-4 bg-emerald-50/20 border-x border-emerald-100/80 text-emerald-900 font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 size={14} className="text-emerald-600 shrink-0" /> 100% Free Public Sources & Endpoints
+                  </td>
+                  <td className="p-4 text-stone-600">$20–$200/month or paid API keys</td>
+                  <td className="p-4 text-stone-600">Free with heavy ads</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* CATEGORY INTELLIGENCE SHOWCASE */}
+      <section className="py-20 px-6 bg-white border-t border-stone-200">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <p className="text-xs font-bold uppercase tracking-wider text-[#174f3c]">Tailored Search Engines</p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">5 Specialized Category Engines</h2>
+            <p className="text-sm text-stone-600">ResearchFlow AI adjusts search query keywords, source priorities, and report layouts for your exact domain.</p>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 border-b border-stone-200 pb-4">
+            <button
+              onClick={() => setActiveCategoryTab('idea')}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeCategoryTab === 'idea' ? 'bg-[#174f3c] text-white shadow-md' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+            >
+              <Lightbulb size={14} /> Idea Validation Canvas
+            </button>
+            <button
+              onClick={() => setActiveCategoryTab('market')}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeCategoryTab === 'market' ? 'bg-[#174f3c] text-white shadow-md' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+            >
+              <BarChart3 size={14} /> Market Intelligence
+            </button>
+            <button
+              onClick={() => setActiveCategoryTab('tech')}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeCategoryTab === 'tech' ? 'bg-[#174f3c] text-white shadow-md' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+            >
+              <Code2 size={14} /> Technical Docs
+            </button>
+            <button
+              onClick={() => setActiveCategoryTab('academic')}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeCategoryTab === 'academic' ? 'bg-[#174f3c] text-white shadow-md' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+            >
+              <GraduationCap size={14} /> Academic Review
+            </button>
+            <button
+              onClick={() => setActiveCategoryTab('generalist')}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeCategoryTab === 'generalist' ? 'bg-[#174f3c] text-white shadow-md' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'}`}
+            >
+              <Globe size={14} /> Generalist Reference
+            </button>
+          </div>
+
+          {/* Active Tab Preview Box */}
+          <div className="bg-stone-900 text-stone-100 rounded-2xl p-8 border border-stone-800 shadow-xl space-y-6">
+            {activeCategoryTab === 'idea' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-stone-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Idea Validation Canvas Engine</span>
+                  <span className="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Prioritizes Product Hunt, GitHub, Hacker News & SEC Filings</span>
                 </div>
-              ))
+                <h4 className="text-lg font-serif font-bold text-white">SWOT Analysis Matrix & TAM Signals</h4>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Evaluates strengths, user pain points, competitor repositories, and market sizing metrics from live public web snippets alongside a deterministic recommendation (<span className="text-emerald-400 font-bold">Build</span>, <span className="text-amber-400 font-bold">Validate Further</span>, or <span className="text-rose-400 font-bold">Pivot</span>).
+                </p>
+              </div>
+            )}
+
+            {activeCategoryTab === 'market' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-stone-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Market Intelligence Engine</span>
+                  <span className="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Prioritizes Vendor Sites, Pricing Pages & SEC Reports (+4.0 Score Boost)</span>
+                </div>
+                <h4 className="text-lg font-serif font-bold text-white">Commercial Landscape & Enterprise Adoption</h4>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Penalizes generic academic papers while highlighting vendor pricing tiers, commercial feature matrices, SEC regulatory filings, and market growth estimates.
+                </p>
+              </div>
+            )}
+
+            {activeCategoryTab === 'tech' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-stone-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Technical Docs Engine</span>
+                  <span className="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Prioritizes Official Docs, API Specs, SDKs & GitHub Codebases</span>
+                </div>
+                <h4 className="text-lg font-serif font-bold text-white">Codebase Architecture & Official API References</h4>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Strictly enforces primary topic keyword presence, rejecting unrelated android/robotics fluff when searching Kubernetes or web framework topics.
+                </p>
+              </div>
+            )}
+
+            {activeCategoryTab === 'academic' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-stone-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Academic Review Engine</span>
+                  <span className="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Prioritizes Peer-Reviewed Papers & OpenAlex / EuropePMC Indexes</span>
+                </div>
+                <h4 className="text-lg font-serif font-bold text-white">Dual-Concept Application Matching</h4>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Applies a dual-match bonus when scientific papers match both the theoretical concept and its application domain (e.g. <em>Explainable AI</em> + <em>Software Engineering</em>).
+                </p>
+              </div>
+            )}
+
+            {activeCategoryTab === 'generalist' && (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-stone-800 pb-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Generalist Reference Engine</span>
+                  <span className="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded">Balanced Blend of Research Papers & Educational Indexes</span>
+                </div>
+                <h4 className="text-lg font-serif font-bold text-white">Foundational Overview & Multi-Source Synthesis</h4>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Blends university archives, government databases, Wikipedia references, and open book registries for comprehensive topic orientation.
+                </p>
+              </div>
             )}
           </div>
         </div>
+      </section>
 
-        <div className="sidebar-bottom shrink-0">
-          <button className="profile" onClick={() => setIsProfileModalOpen(true)}>
-            <span className="avatar">{avatarInitials}</span>
-            <span>
-              <b>{userName}</b>
-              <small>{workspaceLabel}</small>
-            </span>
-            <span className="chevron">⌄</span>
-          </button>
+      {/* DOWNLOAD & DESKTOP BUILD SECTION */}
+      <section id="download-section" className="py-20 px-6 bg-stone-900 text-stone-100">
+        <div className="max-w-5xl mx-auto space-y-12">
+          <div className="text-center space-y-4 max-w-2xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950 border border-emerald-800/30 text-emerald-400 text-xs font-mono">
+              <Laptop size={14} /> STANDALONE DESKTOP APPLICATION
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">Run ResearchFlow AI Locally</h2>
+            <p className="text-sm text-stone-400">Download or run locally on your Windows device for 100% offline local database storage and instant research execution.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Download Option 1: Web Workspace */}
+            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-7 space-y-5 flex flex-col justify-between">
+              <div className="space-y-3">
+                <span className="text-[10px] font-mono uppercase bg-emerald-950 text-emerald-400 px-2.5 py-1 rounded">Option 1 • Instant Web Workspace</span>
+                <h3 className="font-serif text-xl font-bold text-white">Browser-Native Workspace</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Launch directly in your web browser. Uses browser IndexedDB memory for 100% client-side privacy without downloading extra desktop installers.
+                </p>
+              </div>
+              <button
+                onClick={handleLaunchApp}
+                className="w-full py-3 text-xs font-bold bg-[#174f3c] text-white rounded-xl hover:bg-[#123e2f] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                Launch Browser Workspace <ArrowRight size={14} />
+              </button>
+            </div>
+
+            {/* Download Option 2: Desktop Executable / Tauri Bundle */}
+            <div className="bg-stone-950 border border-stone-800 rounded-2xl p-7 space-y-5 flex flex-col justify-between">
+              <div className="space-y-3">
+                <span className="text-[10px] font-mono uppercase bg-amber-950 text-amber-400 px-2.5 py-1 rounded">Option 2 • Native Desktop Application</span>
+                <h3 className="font-serif text-xl font-bold text-white">Windows Desktop Bundle</h3>
+                <p className="text-xs text-stone-400 leading-relaxed">
+                  Run as a standalone desktop application compiled with Tauri / Rust. Writes clean <code className="text-emerald-400 font-mono">.json</code> and <code className="text-emerald-400 font-mono">.md</code> files directly to your hard-drive directory.
+                </p>
+              </div>
+              <button
+                onClick={handleLaunchApp}
+                className="w-full py-3 text-xs font-bold bg-stone-800 text-stone-200 border border-stone-700 rounded-xl hover:bg-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Download size={14} className="text-emerald-400" /> Build Desktop App Bundle
+              </button>
+            </div>
+          </div>
         </div>
-      </aside>
+      </section>
 
-      {/* MAIN CONTENT AREA */}
-      <main className="flex-1 flex flex-col">
-        <header>
-          <div className="breadcrumb">
-            Research workspace <span>/</span> <strong>New project</strong>
-          </div>
-          <div className="header-actions flex items-center gap-2">
-            <button 
-              className="px-3.5 py-1.5 text-xs font-bold text-[#174f3c] bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
-              onClick={() => router.push('/landing')}
-            >
-              <span>✨ Why ResearchFlow AI?</span>
-            </button>
-          </div>
-        </header>
-
-        {/* HERO SECTION / LAUNCHER */}
-        <section className="hero">
-          <p className="eyebrow">EVIDENCE-FIRST RESEARCH AGENT</p>
-          <h1>An evidence-first research agent that turns a question into a <em>reusable research workspace.</em></h1>
-          <p className="subhead">
-            Research once. Keep the evidence, report, citations, and searchable knowledge base—then explore it with confidence.
-          </p>
-
-          <div className="prompt-card">
-            <label htmlFor="question">What would you like to understand?</label>
-            <textarea
-              id="question"
-              rows={2}
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder={getPlaceholderText(category)}
-            />
-            
-            {/* Category Selector Pills */}
-            <div className="flex gap-2 flex-wrap mb-4 mt-2 border-t border-stone-100 pt-3">
-              <span className="text-xs text-stone-500 font-semibold flex items-center mr-2">Research Category:</span>
-              <button 
-                type="button"
-                onClick={() => handleCategorySelect('generalist')}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer ${category === 'generalist' ? 'bg-[#174f3c] text-white border-transparent font-semibold shadow-sm' : 'bg-stone-50 text-stone-600 border-stone-200 hover:border-stone-300'}`}
-              >
-                🌐 Generalist
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleCategorySelect('idea')}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer ${category === 'idea' ? 'bg-[#174f3c] text-white border-transparent font-semibold shadow-sm' : 'bg-stone-50 text-stone-600 border-stone-200 hover:border-stone-300'}`}
-              >
-                💡 Idea Validation
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleCategorySelect('academic')}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer ${category === 'academic' ? 'bg-[#174f3c] text-white border-transparent font-semibold shadow-sm' : 'bg-stone-50 text-stone-600 border-stone-200 hover:border-stone-300'}`}
-              >
-                🔬 Academic Review
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleCategorySelect('market')}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer ${category === 'market' ? 'bg-[#174f3c] text-white border-transparent font-semibold shadow-sm' : 'bg-stone-50 text-stone-600 border-stone-200 hover:border-stone-300'}`}
-              >
-                📊 Market Intelligence
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleCategorySelect('tech')}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 cursor-pointer ${category === 'tech' ? 'bg-[#174f3c] text-white border-transparent font-semibold shadow-sm' : 'bg-stone-50 text-stone-600 border-stone-200 hover:border-stone-300'}`}
-              >
-                💻 Technical Docs
-              </button>
+      {/* FOOTER */}
+      <footer className="bg-stone-950 border-t border-stone-800 py-10 px-6 text-stone-500 text-xs">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[#174f3c] text-[#d9f57a] flex items-center justify-center font-bold text-xs">
+              RF
             </div>
-            
-            <div className="prompt-footer">
-              <span className="scope">
-                <span className="live-dot"></span> Web, papers & trusted sources (API-key free)
-              </span>
-              <button 
-                className="research-button" 
-                onClick={handleStartResearch}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Initializing...' : 'Start research'} 
-                <span className="ml-2">→</span>
-              </button>
-            </div>
+            <span className="font-serif font-bold text-stone-300">ResearchFlow AI</span>
+            <span className="text-stone-600">• Local-First Evidence Research Agent</span>
           </div>
 
-          <div className="suggestions">
-            <span>Try:</span>
-            <button onClick={() => handleSuggestionClick('Research quantum computing for a first-year engineering student')}>
-              Quantum computing
-            </button>
-            <button onClick={() => handleSuggestionClick('What are the strongest arguments for and against a four-day workweek?')}>
-              Four-day workweek
-            </button>
-            <button onClick={() => handleSuggestionClick('Map the competitive landscape for carbon removal in India.')}>
-              Carbon removal in India
-            </button>
+          <div className="flex items-center gap-6">
+            <button onClick={handleLaunchApp} className="hover:text-stone-300 transition-colors cursor-pointer">Workspace</button>
+            <button onClick={handleScrollToDownload} className="hover:text-stone-300 transition-colors cursor-pointer">Desktop Build</button>
           </div>
-
-        </section>
-
-      </main>
+        </div>
+      </footer>
 
       {/* PROFILE & SETTINGS MODAL */}
       <ProfileModal
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
-        onProfileUpdated={loadUserProfile}
         triggerToast={triggerToast}
       />
 
       {/* FIRST-TIME WELCOME ONBOARDING MODAL */}
       <WelcomeOnboardingModal
-        onComplete={(name, label) => {
-          setUserName(name);
-          setWorkspaceLabel(label);
+        onComplete={(name) => {
           triggerToast(`Welcome to ResearchFlow AI, ${name}!`);
         }}
       />
-
       {/* TOAST NOTIFICATION */}
       <div className={`toast ${toastMessage ? 'show' : ''}`} role="status">
         {toastMessage}
