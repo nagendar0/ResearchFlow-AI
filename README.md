@@ -1,39 +1,40 @@
 # 🔬 ResearchFlow AI — Evidence-First Local Research Agent & Intelligence Engine
 
-> **Turn complex research inquiries into structured, verifiable, and reusable evidence workspaces.**  
+> **Transform complex research inquiries into structured, verifiable, and reusable evidence workspaces.**  
 > *100% Local-First • Zero Hallucinations • Zero Paid API Dependencies • Desktop & Web Native*
 
 ---
 
 [![Next.js 16](https://img.shields.io/badge/Framework-Next.js%2016%20(Turbopack)-black?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/Frontend-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/Language-TypeScript%205-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tauri v2](https://img.shields.io/badge/Desktop-Tauri%2064--bit-24C8D8?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app)
+[![TypeScript 5](https://img.shields.io/badge/Language-TypeScript%205-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tauri v2](https://img.shields.io/badge/Desktop-Tauri%20v2%20(Rust)-24C8D8?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app)
 [![TailwindCSS v4](https://img.shields.io/badge/Styling-TailwindCSS%20v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Storage](https://img.shields.io/badge/Storage-IndexedDB%20%2B%20Local%20FS-174F3C?style=for-the-badge)](https://github.com/nagendar0/ResearchFlow-AI)
+[![Tests](https://img.shields.io/badge/Tests-11%2F11%20Passing-brightgreen?style=for-the-badge&logo=node.js&logoColor=white)](https://github.com/nagendar0/ResearchFlow-AI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg?style=for-the-badge)](LICENSE)
 
 ---
 
 ## 📑 Table of Contents
 
-- [Overview](#-overview)
-- [Why ResearchFlow AI?](#-why-researchflow-ai)
-- [Key Features](#-key-features)
-- [System Architecture](#-system-architecture)
-- [Autonomous 5-Stage Research Engine](#-autonomous-5-stage-research-engine)
-- [5 Specialized Research Categories](#-5-specialized-research-categories)
-- [Evidence Scoring & Quality Math](#-evidence-scoring--quality-math)
-- [Interactive Workspace Capabilities](#-interactive-workspace-capabilities)
-- [Tech Stack & Integrations](#-tech-stack--integrations)
-- [Database Schema & Data Model](#-database-schema--data-model)
-- [Project Directory Structure](#-project-directory-structure)
-- [Getting Started & Installation](#-getting-started--installation)
-- [Building Native Desktop Applications](#-building-native-desktop-applications)
-- [Running Automated Tests](#-running-automated-tests)
-- [Security, Privacy & Local Storage](#-security-privacy--local-storage)
-- [Contributing & Community](#-contributing--community)
-- [License](#-license)
+- [🌟 Overview](#-overview)
+- [🎯 Why ResearchFlow AI?](#-why-researchflow-ai)
+- [✨ Key Features](#-key-features)
+- [🏗️ System Architecture](#️-system-architecture)
+- [⚙️ Autonomous 5-Stage Research Engine](#️-autonomous-5-stage-research-engine)
+- [🎯 5 Specialized Research Categories](#-5-specialized-research-categories)
+- [📐 Evidence Scoring & Quality Math](#-evidence-scoring--quality-math)
+- [💻 Interactive Workspace Capabilities](#-interactive-workspace-capabilities)
+- [🛠️ Tech Stack & Integrations](#️-tech-stack--integrations)
+- [🗄️ Database Schema & Data Model](#️-database-schema--data-model)
+- [📂 Project Directory Structure](#-project-directory-structure)
+- [🚀 Getting Started & Installation](#-getting-started--installation)
+- [🖥️ Building Native Desktop Applications](#️-building-native-desktop-applications)
+- [🧪 Running Automated Tests](#-running-automated-tests)
+- [🔒 Security, Privacy & Local Storage](#-security-privacy--local-storage)
+- [🤝 Contributing & Community](#-contributing--community)
+- [📜 License](#-license)
 
 ---
 
@@ -41,10 +42,10 @@
 
 **ResearchFlow AI** is an evidence-first autonomous research agent and intelligence workspace. Unlike standard LLM chat interfaces that produce generic, ungrounded, or hallucinated summaries, ResearchFlow AI executes a multi-stage scientific pipeline:
 
-1. **Deconstructs** raw user queries into structured research scopes with explicit audience and learning-level calibrations.
-2. **Crawls & Indexes** 14+ open scholarly, governmental, technical, and market APIs without requiring paid API keys or subscription tokens.
+1. **Deconstructs** raw user queries into structured research scopes with explicit audience, depth, and learning-level calibrations.
+2. **Crawls & Indexes** 14+ open scholarly, governmental, technical, and market public endpoints without requiring paid API keys or subscription tokens.
 3. **Extracts & Normalizes** exact textual passages, canonical URLs, and persistent DOIs.
-4. **Validates & Corroborates** every claim across independent sources using mathematical quality ranking and cross-source corroboration metrics.
+4. **Validates & Corroborates** every claim across independent sources using transparent mathematical quality ranking and cross-source corroboration metrics.
 5. **Compiles** actionable, fully cited **Decision Briefs**, interactive **Evidence Ledgers**, and provides an **Evidence-Grounded Q&A Chat** that strictly enforces zero-hallucination guardrails (*grounded refusal when evidence is absent*).
 6. **Stores 100% of data on-device** via an offline-first IndexedDB and local filesystem storage engine.
 
@@ -71,7 +72,7 @@
 
 ## ✨ Key Features
 
-### 🛡️ 1. 100% Local-First & Private
+### 🛡️ 1. 100% Local-First & Zero-Telemetry Private Ledger
 - All research projects, crawled evidence passages, synthesized briefs, audit logs, and Q&A chat histories are persisted strictly inside your browser's IndexedDB and local file storage.
 - Includes a 1-click **Danger Zone Factory Reset** in Profile Settings to purge cached queries and project workspaces instantly.
 
@@ -232,7 +233,7 @@ $$\text{Total Score} = S_{\text{domain}} + S_{\text{authority}} + S_{\text{relev
 3. **Topic Relevance ($S_{\text{relevance}}$)**:
    - Calculated by matching multi-word query tokens against the chunk text, capped at `+2.0`.
 4. **Recency ($S_{\text{recency}}$)**:
-   - Publications indexed within the last 2 years (2024–2026): `+0.5`
+   - Publications indexed within recent release windows (2024–2026): `+0.5`
 5. **Excerpt Usability ($S_{\text{usability}}$)**:
    - Comprehensive excerpts ($>80$ characters): `+0.5`
 6. **Cross-Source Corroboration ($S_{\text{corroboration}}$)**:
@@ -474,13 +475,18 @@ ResearchFlow AI includes an automated test suite verifying deduplication, scope 
 npm test
 ```
 
-### Tested Capabilities:
+### Tested Capabilities (11/11 Passing):
 - ✅ **Deduplication & Canonical URL Normalization** (UTM removal, trailing slashes, protocol unification).
 - ✅ **DOI Resolution & Prioritization** (Matches variations of `10.xxxx/...` and selects highest quality tier).
 - ✅ **Audience & Learning-Level Extraction** (Accurate parsing of beginner, intermediate, and advanced prompts).
+- ✅ **Audience Modifier Keyword Omission** (Ensures clean, noise-free source queries).
 - ✅ **Evidence Scoring Math & Thresholding** (Recency, peer review, and keyword relevance weight verification).
-- ✅ **Idea Validation Verdict Engine** (Verifies `Build`, `Validate Further`, `Pivot`, and `Avoid` decision trees).
-- ✅ **Enterprise Zero-Hallucination Guardrails** (Ensures unsupported queries trigger grounded refusals).
+- ✅ **Cache Expiry Invalidation Calculations** (24-hour and 7-day TTL lifecycle verification).
+- ✅ **Evidence Coverage Metrics** (Verification of evidence count integrity).
+- ✅ **Zero-Hallucination Grounded Refusal Verification** (Ensures unsupported queries trigger explicit evidence-missing phrases).
+- ✅ **Domain-Specific Filtering in Technical Docs** (Rejects irrelevant cross-domain results like robotics/Android on Kubernetes queries).
+- ✅ **Market Intelligence Prioritization** (Prioritizes official corporate and market filings over encyclopedic references).
+- ✅ **Idea Validation Verdict Engine** (Verifies `Build`, `Validate Further`, `Pivot`, and `Avoid` decision matrices).
 
 ---
 
