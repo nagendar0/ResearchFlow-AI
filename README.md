@@ -113,47 +113,44 @@
 
 ## 🏗️ System Architecture
 
-```mermaid
-flowchart TB
-    subgraph UI_Layer [User Interface & Workspace]
-        A[Landing Page & Research Studio] --> B[Workspace Dashboard]
-        B --> C[Deep Dive Project Workspace]
-        C --> C1[Decision Brief Viewer]
-        C --> C2[Evidence Ledger & CSV Export]
-        C --> C3[Sources Matrix & HTTP Audit]
-        C --> C4[Evidence-Grounded Q&A Chat]
-        C --> C5[PDF & Markdown Exporter]
-    end
-
-    subgraph Core_Engine [Autonomous Research Engine]
-        D[Scope Parser & Intent Extractor] --> E[Dynamic Query Matrix Generator]
-        E --> F[Multi-Provider Crawler Engine]
-        F --> G[Canonical URL & DOI Normalizer]
-        G --> H[Chunk Extractor & Text Segmenter]
-        H --> I[Cross-Source Corroboration Engine]
-        I --> J[Evidence Quality Scoring Math]
-        J --> K[Grounded Brief & Canvas Synthesizer]
-    end
-
-    subgraph Adapters [Open Public Data Providers]
-        P1[(Europe PMC & DOAJ)]
-        P2[(OpenAlex & Crossref)]
-        P3[(GitHub, npm, Crates.io)]
-        P4[(SEC EDGAR & World Bank)]
-        P5[(GDELT & Wikidata)]
-        P6[(Hacker News & Reddit)]
-    end
-
-    subgraph Storage [Offline-First Storage Ledger]
-        S1[(Browser IndexedDB)]
-        S2[(Tauri Local Filesystem)]
-        S3[(Optional Supabase Cloud Sync)]
-        S4[(24h / 7d TTL Search Cache)]
-    end
-
-    UI_Layer <--> Core_Engine
-    Core_Engine <--> Adapters
-    Core_Engine <--> Storage
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              USER INTERFACE & WORKSPACE                                │
+│  ┌────────────────────────┐    ┌────────────────────────┐    ┌──────────────────────┐  │
+│  │ Landing & Discovery UI │───►│  Workspace Dashboard   │───►│ Deep-Dive Workspace  │  │
+│  └────────────────────────┘    └────────────────────────┘    └──────────┬───────────┘  │
+│                                                                         │              │
+│       ┌───────────────────────┬───────────────────────┬─────────────────┴────────┐     │
+│       ▼                       ▼                       ▼                          ▼     │
+│  ┌───────────────┐     ┌──────────────┐     ┌──────────────────┐     ┌──────────────┐  │
+│  │Decision Brief │     │EvidenceLedger│     │  Sources Matrix  │     │ Grounded Q&A │  │
+│  └───────────────┘     └──────────────┘     └──────────────────┘     └──────────────┘  │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              AUTONOMOUS RESEARCH ENGINE                                │
+│  ┌───────────────────────┐       ┌────────────────────────┐      ┌──────────────────┐  │
+│  │ 1. Scope & Intent     │──────►│ 2. Dynamic Query Matrix│─────►│ 3. Multi-Provider│  │
+│  │    Extraction         │       │    Generator           │      │    Crawler Engine│  │
+│  └───────────────────────┘       └────────────────────────┘      └────────┬─────────┘  │
+│                                                                           │            │
+│  ┌───────────────────────┐       ┌────────────────────────┐      ┌────────┴─────────┐  │
+│  │ 6. Grounded Synthesis │◄──────│ 5. Corroboration &     │◄─────│ 4. Canonical URL │  │
+│  │    & Brief Generation │       │    Quality Math Engine │      │    & DOI Normalizer││
+│  └───────────────────────┘       └────────────────────────┘      └──────────────────┘  │
+└──────────────────┬────────────────────────────────────────────────────────┬────────────┘
+                   │                                                        │
+                   ▼                                                        ▼
+┌───────────────────────────────────────┐        ┌───────────────────────────────────────┐
+│      OPEN PUBLIC DATA PROVIDERS       │        │     OFFLINE-FIRST STORAGE LEDGER      │
+│  • Academic: Europe PMC, OpenAlex,    │        │  • Browser IndexedDB (Zero Cloud)     │
+│    Crossref, DOAJ, Open Library       │        │  • Tauri Native OS Filesystem Ledger  │
+│  • Technical: GitHub, npm, Crates.io, │        │  • 24h & 7d TTL Smart Search Cache    │
+│    Stack Overflow, Dev.to             │        │  • Optional Supabase Sync (Cloud RLS) │
+│  • Market: SEC EDGAR, World Bank,     │        │  • Danger Zone Instant Local Purge    │
+│    GDELT, Hacker News, Reddit         │        │                                       │
+└───────────────────────────────────────┘        └───────────────────────────────────────┘
 ```
 
 ---
@@ -162,14 +159,23 @@ flowchart TB
 
 ResearchFlow AI executes a deterministic, verifiable 5-stage lifecycle for every inquiry:
 
-```mermaid
-stateDiagram-v2
-    [*] --> Stage1_Planning: User Query Submitted
-    Stage1_Planning --> Stage2_Discovering: Scope Extracted & Matrix Formed
-    Stage2_Discovering --> Stage3_Extracting: Parallel Fetch (14+ Providers)
-    Stage3_Extracting --> Stage4_Validating: Passages Normalized & Chunked
-    Stage4_Validating --> Stage5_Synthesizing: Corroboration & Quality Scored
-    Stage5_Synthesizing --> [*]: Brief, Ledger & Q&A Ready
+```text
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                             5-STAGE RESEARCH PIPELINE LIFECYCLE                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+  [Stage 1: Planning]     ──►  Parse audience, learning depth & formulate 3 targeted search vectors
+           │
+           ▼
+  [Stage 2: Discovering]  ──►  Dispatch parallel queries across 14+ open endpoints with timeout guards
+           │
+           ▼
+  [Stage 3: Extracting]   ──►  Strip markup, reconstruct inverted abstracts, normalize canonical DOIs
+           │
+           ▼
+  [Stage 4: Validating]   ──►  Compute cross-source corroboration & transparent 0.0 - 5.0+ quality math
+           │
+           ▼
+  [Stage 5: Synthesizing] ──►  Compile structured Decision Brief, interactive Ledger & Grounded Q&A
 ```
 
 ### Stage 1: Planning & Scope Extraction
